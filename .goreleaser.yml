@@ -1,0 +1,30 @@
+# https://goreleaser.com/
+
+before:
+  hooks:
+    - go mod download
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+
+nfpms:
+  - description: Split Kubernetes/OpenShift object lists into dedicated files per namespace and kind
+    maintainer: Michael Hanselmann <hansmi@vshn.ch>
+    vendor: VSHN AG
+    homepage: https://git.vshn.net/appuio/krossa
+    bindir: /usr/bin
+    license: BSD 3-Clause
+    formats:
+      - deb
+      - rpm
+    files:
+      README.md: /usr/share/doc/krossa/README.md
+      LICENSE: /usr/share/doc/krossa/LICENSE
+
+release:
+  disable: true
+
+# vim: set sw=2 sts=2 et :

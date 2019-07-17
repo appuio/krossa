@@ -6,6 +6,7 @@ import (
 	"os"
 	"runtime"
 	"sync"
+	"syscall"
 )
 
 func main() {
@@ -29,6 +30,29 @@ func main() {
 	if len(flag.Args()) < 2 {
 		flag.Usage()
 		os.Exit(2)
+	}
+
+	// Attempt to raise allowed number of open files
+	for i := uint64(32); i > 0; i-- {
+		var (
+			wanted = i * 4096
+			limit  syscall.Rlimit
+		)
+
+		if err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &limit); err != nil {
+			break
+		}
+
+		if limit.Cur >= wanted {
+			break
+		}
+
+		limit.Cur = wanted
+		limit.Max = wanted
+
+		if err := syscall.Setrlimit(syscall.RLIMIT_NOFILE, &limit); err == nil {
+			break
+		}
 	}
 
 	outputDir = flag.Arg(0)

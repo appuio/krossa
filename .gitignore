@@ -1,1 +1,4 @@
 /krossa
+/dist/
+/.cache/
+/.gdb_history

@@ -24,7 +24,4 @@ nfpms:
       README.md: /usr/share/doc/krossa/README.md
       LICENSE: /usr/share/doc/krossa/LICENSE
 
-release:
-  disable: true
-
 # vim: set sw=2 sts=2 et :
